@@ -1,0 +1,104 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="{% static 'css/style.css'%}" type="text/css">
+
+</head>
+<body>
+    <div class="container">
+        <h2>📝 Создать аккаунт</h2>
+
+        <div class="success-message" id="successMessage">
+            ✅ Регистрация прошла успешно!
+        </div>
+
+        <form id="registrationForm" onsubmit="return handleSubmit(event)">
+            <div class="name-row">
+                <div class="form-group">
+                    <label for="firstName">Имя</label>
+                    <input type="text" id="firstName" placeholder="Иван" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Фамилия</label>
+                    <input type="text" id="lastName" placeholder="Иванов" required>
+                </div>
+                <div class="form-group">
+                    <label for="middleName">Отчество</label>
+                    <input type="text" id="middleName" placeholder="Иванович">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="example@mail.com" required>
+                <div class="error-message" id="emailError">Введите корректный email</div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" placeholder="Минимум 8 символов" required>
+                <div class="password-requirements">
+                    Требования к паролю:
+                    <ul>
+                        <li id="lengthRequirement">
+                            <span class="requirement-not-met">❌</span>
+                            <span>Минимум 8 символов</span>
+                        </li>
+                        <li id="upperRequirement">
+                            <span class="requirement-not-met">❌</span>
+                            <span>Хотя бы одна заглавная буква</span>
+                        </li>
+                        <li id="numberRequirement">
+                            <span class="requirement-not-met">❌</span>
+                            <span>Хотя бы одна цифра</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Повторите пароль</label>
+                <input type="password" id="confirmPassword" placeholder="Введите пароль еще раз" required>
+                <div class="error-message" id="passwordMatchError">Пароли не совпадают</div>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="agreeTerms" required>
+                <label for="agreeTerms">Я согласен с <a href="#">условиями использования</a> и <a href="#">политикой конфиденциальности</a></label>
+            </div>
+
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+
+        <div class="login-link">
+            Уже есть аккаунт? <a href="#">Войти</a>
+        </div>
+
+        <div class="social-login">
+            <p>Или зарегистрируйтесь через:</p>
+            <div class="social-icons">
+                <div class="social-icon" onclick="alert('Google регистрация')">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
+                    </svg>
+                </div>
+                <div class="social-icon" onclick="alert('VK регистрация')">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M15.684,0H8.316C2.867,0,0,2.867,0,8.316v7.368C0,21.133,2.867,24,8.316,24h7.368C21.133,24,24,21.133,24,15.684V8.316C24,2.867,21.133,0,15.684,0z M19.15,16.385h-1.919c-0.669,0-0.877-0.516-2.082-1.724c-1.042-0.986-1.49-1.115-1.745-1.115c-0.357,0-0.46,0.105-0.46,0.606v1.524c0,0.428-0.136,0.694-1.287,0.694c-1.9,0-4.008-1.17-5.489-3.342C4.848,10.42,4.249,8.292,4.249,7.847c0-0.287,0.115-0.542,0.606-0.542h1.93c0.461,0,0.632,0.219,0.806,0.746c0.888,2.649,2.374,4.98,2.988,4.98c0.229,0,0.334-0.104,0.334-0.685v-2.675c-0.068-1.232-0.714-1.332-0.714-1.771c0-0.213,0.173-0.416,0.448-0.416h2.834c0.375,0,0.507,0.208,0.507,0.676v3.656c0,0.375,0.164,0.507,0.521,0.507c0.334,0,0.88-0.174,1.787-1.099c1.051-1.077,1.802-2.672,1.802-2.672c0.114-0.229,0.294-0.344,0.53-0.344h1.895c0.563,0,0.686,0.298,0.56,0.698c-0.28,0.963-2.514,3.423-2.514,3.423c-0.25,0.358-0.327,0.522,0,0.915c0.235,0.307,1.037,1.012,1.572,1.644c0.716,0.847,1.278,1.556,1.278,2.088C19.777,16.135,19.562,16.385,19.15,16.385z"/>
+                    </svg>
+                </div>
+                <div class="social-icon" onclick="alert('Yandex регистрация')">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M13,17h-2v-4H9v-2h2V9c0-1.66,1.34-3,3-3h2v2h-2c-0.55,0-1,0.45-1,1v2h3l-0.5,2H13V17z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
