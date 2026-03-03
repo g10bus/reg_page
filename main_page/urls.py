@@ -19,8 +19,9 @@ from django.urls import path,include
 from . import views
 
 urlpatterns = [
-    path('profile/', views.profilePage, name = 'profile'),
+    # path('',views.redir,name = 'redirect'),
     path('register/',views.registerPage,name='register'),
+    path('profile/', views.profilePage, name = 'profile'),
     path('login/', views.loginPage, name = 'login'),
 
 ]
