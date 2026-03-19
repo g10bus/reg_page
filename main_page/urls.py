@@ -21,7 +21,10 @@ from . import views
 urlpatterns = [
     # path('',views.redir,name = 'redirect'),
     path('register/',views.registerPage,name='register'),
+
     path('profile/', views.profilePage, name = 'profile'),
     path('login/', views.loginPage, name = 'login'),
+    path('logout/', views.logoutPage, name = 'logout'),
+
 
 ]

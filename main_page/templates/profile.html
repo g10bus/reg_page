@@ -14,15 +14,32 @@
     <div class="profile-container">
         <!-- Шапка профиля -->
         <div class="profile-header">
-            <!-- СДЕЛАТЬ ПРОВЕРКУ НА АКТИВЕН ИЛИ НЕТ ######################################## -->
-            <div class="status-badge">Активен</div>
+
+            <div class="status-badge">Пользователь</div>
+            <a href = "/logout"> <button class="btn btn-danger button-exit " type="submit" name="action"> Выход </button></a>
             <h1>Профиль пользователя</h1>
             <div class="subtitle">{{data.last_name}} {{data.first_name}} {{data.middle_name}}</div>
+
         </div>
+
+
+        {% if message == "ENCR" %}
+        <div style = "background:#f87171">
+            <div>Пароль неверный</div> <!--Временно Изменить на нормальны  дизайн-->
+        </div>
+
+        {% endif %}
+
+        {% if message == "COR" %}
+        <div style = "background:#4ade80">
+            <div>Данные изменены</div> <!--Временно Изменить на нормальны  дизайн-->
+        </div>
+        {% endif %}
 
         <div class="profile-content">
             <!-- Форма профиля -->
-            <form method="POST" action="/profile/update">
+            <form method="POST">
+                {%csrf_token%}
                 <!-- Основная информация -->
                 <div class="profile-section">
                     <div class="section-title">
@@ -171,79 +188,6 @@
         </div>
     </div>
 
-    <!-- Дополнительные стили для псевдоклассов и состояний -->
-    <style>
-        /* Стили для обязательных полей */
-        input:required {
-            border-left: 4px solid #ef4444;
-        }
 
-        input:required:valid {
-            border-left: 4px solid #4ade80;
-        }
-
-        /* Стили для валидации пароля */
-        input[name="new_password"]:invalid {
-            border-color: #f87171;
-        }
-
-        input[name="new_password"]:valid {
-            border-color: #4ade80;
-        }
-
-        /* Стили для подтверждения пароля */
-        input[name="confirm_password"]:invalid {
-            border-color: #f87171;
-        }
-
-        /* Стили для чекбокса статуса */
-        #is_active:checked ~ .status-badge-small {
-            background: #4ade80;
-            color: #166534;
-            content: "Активен";
-        }
-
-        #is_active:not(:checked) ~ .status-badge-small {
-            background: #f87171;
-            color: #7f1d1d;
-            content: "Неактивен";
-        }
-
-        /* Адаптация бейджа статуса */
-        .status-toggle:has(#is_active:not(:checked)) .status-badge-small {
-            background: #f87171;
-            color: #7f1d1d;
-            content: "Неактивен";
-        }
-
-        /* Стили для кнопки сброса */
-        input[type="reset"] {
-            background: #f1f5f9;
-            color: #334155;
-            border: 2px solid #e2e8f0;
-            padding: 12px 28px;
-            border-radius: 12px;
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        input[type="reset"]:hover {
-            background: #e2e8f0;
-        }
-
-        /* Анимация при наведении на секции */
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(102, 126, 234, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0); }
-        }
-
-        .profile-section:focus-within {
-            animation: pulse 1.5s infinite;
-            border-color: #667eea;
-        }
-    </style>
 </body>
 </html>

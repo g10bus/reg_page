@@ -17,7 +17,7 @@
             ✅ Регистрация прошла успешно!
         </div>
 
-<!--        <form id="registrationForm" action="{% url 'profile' %}">-->
+
         <form id="registrationForm" onsubmit="return handleSubmit(event)" method="POST">
             {%csrf_token %}
             <div class="name-row">
