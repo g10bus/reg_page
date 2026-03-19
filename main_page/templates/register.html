@@ -1,0 +1,135 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="{% static 'css/style.css'%}" type="text/css">
+
+</head>
+<body>
+    <div class="container">
+        <h2>📝 Создать аккаунт</h2>
+
+        <div class="success-message" id="successMessage">
+            ✅ Регистрация прошла успешно!
+        </div>
+
+
+        <form id="registrationForm" onsubmit="return handleSubmit(event)" method="POST">
+            {%csrf_token %}
+            <div class="name-row">
+                <div class="form-group">
+                    <label for="firstName">Имя</label>
+                    <input type="text" id="firstName" placeholder="Иван" name = "firstname" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Фамилия</label>
+                    <input type="text" id="lastName" placeholder="Иванов" name = "surname" required>
+                </div>
+                <div class="form-group">
+                    <label for="middleName">Отчество</label>
+                    <input type="text" id="middleName" placeholder="Иванович" name= "middleName">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="example@mail.com" name= "email" required>
+                <div class="error-message" id="emailError">Введите корректный email</div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"  placeholder="Минимум 8 символов" name="password" required>
+                <div class="password-requirements">
+                    Требования к паролю:
+                    <ul>
+                        <li id="lengthRequirement">
+                            <span class="requirement-not-met"> </span>
+                            <span>Минимум 8 символов</span>
+                        </li>
+                        <li id="upperRequirement">
+                            <span class="requirement-not-met"> </span>
+                            <span>Хотя бы одна заглавная буква</span>
+                        </li>
+                        <li id="numberRequirement">
+                            <span class="requirement-not-met"> </span>
+                            <span>Хотя бы одна цифра</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Повторите пароль</label>
+                <input type="password" id="confirmPassword" name = "confirm_Password" placeholder="Введите пароль еще раз"required>
+                <div class="error-message" id="passwordMatchError">Пароли не совпадают</div>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="agreeTerms" required>
+                {%if password == confirmPassword%}
+                <label for="agreeTerms">Я согласен с <a href="#">условиями использования</a> и <a href="#">политикой конфиденциальности</a></label>
+                {%endif%}
+
+            </div>
+
+
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+
+        <div class="login-link">
+            Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a>
+        </div>
+
+    </div>
+ <script>
+
+        document.getElementById('password').addEventListener('input', function(e) {
+            const password = e.target.value;
+
+
+            const lengthReq = document.getElementById('lengthRequirement');
+            if (password.length >= 8) {
+                lengthReq.innerHTML = '<span class="requirement-met">✅</span> <span>Минимум 8 символов</span>';
+            } else {
+                lengthReq.innerHTML = '<span class="requirement-not-met">❌</span> <span>Минимум 8 символов</span>';
+            }
+
+
+            const upperReq = document.getElementById('upperRequirement');
+            if (/[A-ZА-Я]/.test(password)) {
+                upperReq.innerHTML = '<span class="requirement-met">✅</span> <span>Хотя бы одна заглавная буква</span>';
+            } else {
+                upperReq.innerHTML = '<span class="requirement-not-met">❌</span> <span>Хотя бы одна заглавная буква</span>';
+            }
+
+
+            const numberReq = document.getElementById('numberRequirement');
+            if (/[0-9]/.test(password)) {
+                numberReq.innerHTML = '<span class="requirement-met">✅</span> <span>Хотя бы одна цифра</span>';
+            } else {
+                numberReq.innerHTML = '<span class="requirement-not-met">❌</span> <span>Хотя бы одна цифра</span>';
+            }
+        });
+
+
+        document.getElementById('confirmPassword').addEventListener('input', function(e) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = e.target.value;
+            const errorElement = document.getElementById('passwordMatchError');
+
+            if (password !== confirmPassword && confirmPassword.length > 0) {
+                errorElement.style.display = 'block';
+            } else {
+                errorElement.style.display = 'none';
+            }
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style_login.css'%}" type="text/css">
+
+    <title>Вход в аккаунт</title>
+
+</head>
+<body>
+    <div class="login-container">
+        <!-- Шапка -->
+        <div class="login-header">
+            <div class="icon">🔐</div>
+            <h1>Добро пожаловать!</h1>
+            <p>Войдите в свой аккаунт</p>
+        </div>
+
+        <!-- Содержимое -->
+        <div class="login-content">
+
+
+            <form class="login-form" method="POST" >
+                {%csrf_token%}
+                <div class="form-group">
+                    <label>
+                        <span>📧</span>
+                        Email
+                    </label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">📧</span>
+                        <input type="email"
+                               name="email"
+                               class="input-field"
+                               placeholder="Введите ваш email"
+                               required>
+                    </div>
+                </div>
+
+                <!-- Пароль -->
+                <div class="form-group">
+                    <label>
+                        <span>🔑</span>
+                        Пароль
+                    </label>
+                    <div class="input-wrapper password-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input type="password"
+                               name="password"
+                               class="input-field password-field"
+                               placeholder="Введите ваш пароль"
+                               required>
+<!--                        <button type="button" class="password-toggle" title="Показать пароль">👁️</button>-->
+                    </div>
+                </div>
+
+                <!-- Дополнительные опции -->
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" name="remember" checked>
+                        <span>Запомнить меня</span>
+                    </label>
+                    <a href="/password-reset" class="forgot-password">Забыли пароль?</a>
+                </div>
+
+
+                <!-- Кнопка входа -->
+                <button type="submit" class="login-btn">
+                    <span>🚀</span>
+                    Войти в аккаунт
+                </button>
+                {%if 'error' %}
+                <div style = "color:red;">
+                    Пароль или логин не верный !
+                </div>
+                {%endif%}
+
+
+
+                <div class="register-link">
+                    Нет аккаунта?
+                    <a href="/register">Зарегистрироваться</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</body>
+</html>

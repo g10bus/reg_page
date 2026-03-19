@@ -1,0 +1,193 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style_profile.css'%}" type="text/css">
+    <title>Профиль пользователя</title>
+
+</head>
+<body>
+    <div class="profile-container">
+        <!-- Шапка профиля -->
+        <div class="profile-header">
+
+            <div class="status-badge">Пользователь</div>
+            <a href = "/logout"> <button class="btn btn-danger button-exit " type="submit" name="action"> Выход </button></a>
+            <h1>Профиль пользователя</h1>
+            <div class="subtitle">{{data.last_name}} {{data.first_name}} {{data.middle_name}}</div>
+
+        </div>
+
+
+        {% if message == "ENCR" %}
+        <div style = "background:#f87171">
+            <div>Пароль неверный</div> <!--Временно Изменить на нормальны  дизайн-->
+        </div>
+
+        {% endif %}
+
+        {% if message == "COR" %}
+        <div style = "background:#4ade80">
+            <div>Данные изменены</div> <!--Временно Изменить на нормальны  дизайн-->
+        </div>
+        {% endif %}
+
+        <div class="profile-content">
+            <!-- Форма профиля -->
+            <form method="POST">
+                {%csrf_token%}
+                <!-- Основная информация -->
+                <div class="profile-section">
+                    <div class="section-title">
+                        <span class="icon">👤</span>
+                        <h2>Личная информация</h2>
+                    </div>
+
+                    <div class="info-grid">
+                        <!-- Email -->
+                        <div class="info-item">
+                            <label>📧 Email <span style="color: #ef4444;">*</span></label>
+                            <input type="email" name="email" class="input-field"
+                                   value=" {{ data.email }}"
+                                   placeholder="Введите email"
+                                   required>
+                            <span class="field-hint">Уникальный email для входа в систему</span>
+                        </div>
+
+                        <!-- Имя -->
+                        <div class="info-item">
+                            <label>Имя</label>
+                            <input type="text" name="first_name" class="input-field"
+                                   value="{{ data.first_name }}"
+                                   placeholder="Введите имя">
+                        </div>
+
+                        <!-- Фамилия -->
+                        <div class="info-item">
+                            <label>Фамилия</label>
+                            <input type="text" name="last_name" class="input-field"
+                                   value="{{ data.last_name }}"
+                                   placeholder="Введите фамилию">
+                        </div>
+
+                        <!-- Отчество -->
+                        <div class="info-item">
+                            <label>Отчество</label>
+                            <input type="text" name="middle_name" class="input-field"
+                                   value="{{ data.middle_name }}"
+                                   placeholder="Введите отчество">
+                        </div>
+
+                        <!-- Телефон -->
+                        <div class="info-item">
+                            <label>📞 Телефон</label>
+                            <input type="tel" name="phone" class="input-field"
+                                   value="{{ data.phone }}"
+                                   placeholder="+7 (999) 123-45-67"
+                                   title="Формат: +7 (999) 123-45-67">
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <!-- Системная информация (только для чтения) -->
+                <div class="profile-section">
+                    <div class="section-title">
+                        <span class="icon">⚙️</span>
+                        <h2>Системная информация</h2>
+                    </div>
+
+                    <div class="info-grid">
+                        <!-- Дата регистрации -->
+                        <div class="info-item">
+                            <label>📅 Дата регистрации</label>
+                            <input type="text" class="input-field readonly"
+                                   value=" {{ data.date_joined }}"
+                                   readonly disabled>
+                            <input type="hidden" name="date_joined" value="2024-01-15 10:30:00">
+                        </div>
+
+                        <!-- Последнее обновление -->
+                        <div class="info-item">
+                            <label>🔄 Последнее обновление</label>
+                            <input type="text" class="input-field readonly"
+                                   value="{{ data.updated_at }}"
+                                   readonly disabled>
+                            <input type="hidden" name="updated_at" value="2024-01-15 14:25:00">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Безопасность и пароль -->
+                <div class="password-section">
+                    <div class="section-title">
+                        <span class="icon">🔐</span>
+                        <h2>Изменение пароля</h2>
+                    </div>
+
+                    <div class="password-grid">
+                        <!-- Текущий пароль -->
+                        <div class="password-field">
+                            <label>Текущий пароль <span style="color: #ef4444;">*</span></label>
+                            <input type="password" name="current_password" class="input-field"
+                                   placeholder="Введите текущий пароль"
+                                   required>
+                        </div>
+
+                        <!-- Новый пароль -->
+                        <div class="password-field">
+                            <label>Новый пароль</label>
+                            <input type="password" name="new_password" class="input-field"
+                                   placeholder="Введите новый пароль"
+                                   pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                                   title="Минимум 8 символов, хотя бы одна буква и одна цифра">
+                        </div>
+
+                        <!-- Подтверждение пароля -->
+                        <div class="password-field">
+                            <label>Подтверждение пароля</label>
+                            <input type="password" name="confirm_password" class="input-field"
+                                   placeholder="Подтвердите новый пароль">
+                        </div>
+                    </div>
+
+                    <!-- Требования к паролю -->
+                    <div class="password-requirements">
+                        <strong>Требования к паролю:</strong>
+                        <ul>
+                            <li>✓ Минимум 8 символов</li>
+                            <li>✓ Хотя бы одна буква</li>
+                            <li>✓ Хотя бы одна цифра</li>
+                            <li>✓ Не должен совпадать с личными данными</li>
+                        </ul>
+                    </div>
+
+                    <!-- Скрытое поле для текущего пароля (если нужно сохранить) -->
+                    <input type="hidden" name="password" value="hashed_password_here">
+                </div>
+
+                <!-- Кнопки действий -->
+                <div class="actions-bar">
+                    <button type="submit" name="action" value="save_all" class="btn btn-primary">
+                        ✓ Сохранить все изменения
+                    </button>
+                    <button type="reset" class="btn btn-secondary">
+                        ⟲ Сбросить изменения
+                    </button>
+                    <button type="submit" name="action" value="deactivate" class="btn btn-danger"
+                            formaction="/profile/deactivate">
+                        🔴 Деактивировать аккаунт
+                    </button>
+                </div>
+
+        </div>
+    </div>
+
+
+</body>
+</html>
